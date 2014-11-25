@@ -111,7 +111,7 @@ for zi=1:z
     latlon(:,1)=A.Nav.lat_deg(:,:);
     latlon(:,2)=A.Nav.long_deg(:,:);
     
-    switch A.Sup.units(1,:) 
+    switch A.Sup.units{1,:} 
         case{'ft'}
             error('Units must be metric to start')
     end
@@ -199,9 +199,11 @@ for zi=1:z
             xlabel('Velocity (m/s)')
             ylabel('Height above bottom (m)')
             ylim([0 ceil(sta.depth)])
-            xlim([0 max(sta.U)+0.1])
-            plot([0 max(sta.U)+0.1],[sta.depth sta.depth],'k--')
-            text((max(sta.U)+0.1)/2,sta.depth,'Water Surface')
+            minu = min([0 min(sta.U)+0.05*min(sta.U)]);
+            maxu = max([0 max(sta.U)+0.05*max(sta.U)]);
+            xlim([minu maxu])
+            plot([minu maxu],[sta.depth sta.depth],'k--')
+            text(mean([minu maxu]),sta.depth,'Water Surface')
         case{'english'}
             sta.depth = sta.depth*3.281;
             sta.U = sta.U*3.281;
@@ -212,9 +214,11 @@ for zi=1:z
             xlabel(upper('Velocity, in feet per second'))
             ylabel(upper('Height above bottom, in feet'))
             ylim([0 ceil(sta.depth)])
-            xlim([0 max(sta.U)+0.1])
-            plot([0 max(sta.U)+0.1],[sta.depth sta.depth],'k--')
-            text((max(sta.U)+0.1)/2,sta.depth,'Water Surface')
+            minu = min([0 min(sta.U)+0.05*min(sta.U)]);
+            maxu = max([0 max(sta.U)+0.05*max(sta.U)]);
+            xlim([minu maxu])
+            plot([minu maxu],[sta.depth sta.depth],'k--')
+            text(mean([minu maxu]),sta.depth,'Water Surface')
     end
     
 

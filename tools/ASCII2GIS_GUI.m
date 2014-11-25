@@ -86,7 +86,7 @@ varargout{1} = handles.output;
 handles.dfslow       = 0;
 handles.dfshi        = 1;
 handles.hablim       = 1;
-handles.DFSfull      = 0;
+handles.DFSfull      = 1;
 handles.units        = 1;
 handles.ref          = 1;
 handles.VelOut       = [];
@@ -130,7 +130,7 @@ else
     end
 end
  
-[handles.VelOut,handles.goodrows] = ASCII2GIS(drange,vref,handles.TAV);
+[handles.VelOut,handles.goodrows] = ASCII2GISv2(drange,vref,handles.TAV);
 guidata(hObject,handles)
 
 % --- Executes on button press in FullDepthcheckbox.

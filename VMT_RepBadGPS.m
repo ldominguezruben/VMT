@@ -80,10 +80,11 @@ for zi = 1 : z
     vel2    = dist2./delta_time_elapsed;
     
     % Compute a threshold velocity based on the data
-    vel_threshold   = 1.5*(nanstd([dist1;dist2]) + nanmedian([dist1;dist2]))./...
+    alpha = 1.0;
+    vel_threshold   = alpha*(nanstd([dist1;dist2]) + nanmedian([dist1;dist2]))./...
         (std(delta_time_elapsed) + median(delta_time_elapsed));
-    suspect1        = (dist1>vel_threshold);
-    suspect2        = (dist2>vel_threshold);
+    suspect1        = (vel1>vel_threshold);
+    suspect2        = (vel2>vel_threshold);
     
     % Logical index of fly-aways
     %fly_aways       = suspect1 | suspect2;

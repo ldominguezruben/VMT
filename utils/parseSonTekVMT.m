@@ -148,9 +148,12 @@ if exist('Compas','var') % [sic], Sontek spelled it wrong, this is a v 3.60 mat-
     Sensor.roll_deg     = Compas.Roll(idx);
     Sensor.heading_deg  = System.Heading(idx);
     Sensor.temp_degC    = System.Temperature(idx);
-else
+elseif isfield(System,'Pitch')
     Sensor.pitch_deg    = System.Pitch(idx);
     Sensor.roll_deg     = System.Roll(idx);
+    Sensor.heading_deg  = System.Heading(idx);
+    Sensor.temp_degC    = System.Temperature(idx);
+else
     Sensor.heading_deg  = System.Heading(idx);
     Sensor.temp_degC    = System.Temperature(idx);
 end
