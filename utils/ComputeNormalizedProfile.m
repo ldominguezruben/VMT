@@ -56,30 +56,30 @@ for i = 1:npts
 end
 
 % Plot the median profiles
-
-figure(11); clf
-subplot(1,3,1)
-plot(Ve_all,zn_all,'k.'); hold on
-plot(Vme,zcn,'ro-')
-ylim([0 1])
-ylabel('Normalized Height above bed')
-xlabel('East Velocity')
-grid on
-subplot(1,3,2)
-plot(Vn_all,zn_all,'k.'); hold on
-plot(Vmn,zcn,'ro-')
-ylim([0 1])
-%ylabel('Normalized Height above bed')
-xlabel('North Velocity')
-grid on
-subplot(1,3,3)
-plot(Vv_all,zn_all,'k.'); hold on
-plot(Vmv,zcn,'ro-')
-ylim([0 1])
-%ylabel('Normalized Height above bed')
-xlabel('Vertical Velocity')
-grid on
-
+if 0
+    figure(11); clf
+    subplot(1,3,1)
+    plot(Ve_all,zn_all,'k.'); hold on
+    plot(Vme,zcn,'ro-')
+    ylim([0 1])
+    ylabel('Normalized Height above bed')
+    xlabel('East Velocity')
+    grid on
+    subplot(1,3,2)
+    plot(Vn_all,zn_all,'k.'); hold on
+    plot(Vmn,zcn,'ro-')
+    ylim([0 1])
+    %ylabel('Normalized Height above bed')
+    xlabel('North Velocity')
+    grid on
+    subplot(1,3,3)
+    plot(Vv_all,zn_all,'k.'); hold on
+    plot(Vmv,zcn,'ro-')
+    ylim([0 1])
+    %ylabel('Normalized Height above bed')
+    xlabel('Vertical Velocity')
+    grid on
+end
 %Compute the Velocity Magnitude
 Vmag = sqrt(Vme.^2 + Vmn.^2);
 

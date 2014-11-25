@@ -331,8 +331,61 @@ for zi=1:z
         if ~isempty(qindx)
             DAVdir_av(qindx) = DAVdir_av(qindx) + 360;  %Must add 360 deg to Quadrant 4 values as they are negative angles from the +y axis
         end
-    else
-        maxd = nanmax(Depth);
+    else % No data averaging requested
+        disp(['No spatial averaging requested. Processing all data.'])
+           
+        %Preallocate
+        dnm = nan(size(A.Wat.binDepth,1),1);
+        vpm = nan*ones(size(dnm));
+        dUdz = nan*ones(size(A.Wat.binDepth,1)-1,1);
+        dUdz_z = nan*ones(size(dUdz));
+        velprof = nan*ones(size(dnm));
+        
+        for i = 1:length(dnm)
+           
+            if comp_us  %Compute the shear velocity
+                %Compute the mean, normalized profile (bed origin)
+                %[znm,vm] = VMT_ComputeNormProf(z_norm(:,av_indx),A.Wat.vMag(:,av_indx),30);
+                [binDepth,znm,Vme,Vmn,Vmv,vm,obsav,maxdepth(i)] = ComputeNormalizedProfile(nanmean(A.Nav.depth(i,:),2)',A.Wat.binDepth(:,i),A.Wat.vEast(:,i),A.Wat.vNorth(:,i),A.Wat.vVert(:,i));
+                znm = znm';
+                binDepth = binDepth';
+                vm_plot{i} = vm;
+                znm_plot{i} = znm;
+                binDepth_plot{i} = binDepth;
+                
+                %Compute the mean profile (surface origin)
+                %[dnm(:,i),vpm(:,i)] = VMT_ComputeProf(A.Wat.binDepth(:,av_indx),A.Wat.vMag(:,av_indx),Depth_av(i));
+                [dnm(:,i),vem,vnm,vvm,vpm(:,i),maxd(i),vdir(:,i)] = VMT_ComputeProf(A.Wat.binDepth(:,i),A.Wat.vEast(:,i),A.Wat.vNorth(:,i),A.Wat.vVert(:,i),nanmean(A.Nav.depth(i,:),2)');
+                
+                % Determine the projected velocity (specified direction)
+                psi = (vdir(:,i)-proj_dir);
+
+                % Determine the projected velocity (U) and transverse (V)
+                U(:,i) = cosd(psi).*vpm(:,i);
+                V(:,i) = sind(psi).*vpm(:,i);
+                                        
+                %Fit the normalized profile with the log law
+                gd_indx = ~isnan(vm);
+                u_fit = vm(gd_indx)./100;
+                z_fit = maxdepth(i) - binDepth(gd_indx); %znm(gd_indx)*maxdepth(i);               
+                [ustar_av(i),zo_av(i),cod_av(i)] = fitLogLawV2(u_fit,z_fit,maxdepth(i));
+            else
+                ustar_av(i) = nanmean(ustar(i));
+                zo_av(i) = nanmean(zo(i));
+                cod_av(i) = nanmean(cod(i));
+                maxd(i) = nanmax(Depth(i));
+            end        
+        end
+        
+        % Compute the magnitude and direction from the averaged
+        % components
+
+        DAVmag_av = sqrt(DAVeast.^2 + DAVnorth.^2);
+        DAVdir_av = 90 - (atan2(DAVnorth, DAVeast))*180/pi; %Compute the atan from the velocity componentes, convert to radians, and rotate to north axis
+        qindx = find(DAVdir_av < 0);
+        if ~isempty(qindx)
+            DAVdir_av(qindx) = DAVdir_av(qindx) + 360;  %Must add 360 deg to Quadrant 4 values as they are negative angles from the +y axis
+        end
     end 
     
     if plot_projected
