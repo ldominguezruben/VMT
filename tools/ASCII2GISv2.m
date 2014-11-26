@@ -28,7 +28,7 @@ function [VelOut,goodrows] = ASCII2GISv2(drange,ref,tav)
 %% USer inputs
 append_data = 1;
 comp_us = 1; %Compute shear velocity
-plot_profiles = 1;  %Plots median profiles for each averaging timestep
+plot_profiles = 0;  %Plots median profiles for each averaging timestep
 plot_projected = 0; % Turn on projected velocity for plotting profiles
 proj_dir = 144.4;  %projection direction for velocity projection (profiles)
 plot_english = 0;
@@ -220,7 +220,7 @@ for zi=1:z
     end 
         
         
-    if 0  %Fit individual profiles to log law
+    if 1  %Fit individual profiles to log law
         clear i j
         i = 1;
         for j = 1:length(indx3)
@@ -386,6 +386,7 @@ for zi=1:z
         if ~isempty(qindx)
             DAVdir_av(qindx) = DAVdir_av(qindx) + 360;  %Must add 360 deg to Quadrant 4 values as they are negative angles from the +y axis
         end
+        EnsNo_av = EnsNo;
     end 
     
     if plot_projected
@@ -429,7 +430,7 @@ for zi=1:z
             Nh = 1;
         end
         h3 = figure(3); clf
-        maximize(h3)
+        %maximize(h3)
         ha = tight_subplot(Nh, Nw, [0.05 0.02], [.05 .05],[.05 .05]);
         for i = 1:nprofs
             if plot_english
