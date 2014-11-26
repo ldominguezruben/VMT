@@ -11,6 +11,19 @@ function [dnm,vem,vnm,vvm,vmm,maxd,vdir] = VMT_ComputeProf(dn,ve,vn,vv,d)
 %
 % P.R. Jackson, USGS, 9-12-14
 
+% Check for no data (can occur for missing periods of data)
+if sum(~isnan(d)) == 0  %means all depth data are nans
+    dm = nan;
+    zm = nan;
+    Vme = nan;
+    Vmn = nan;
+    Vmv = nan;
+    Vmag = nan; 
+    nmedpts = nan;
+    maxd = nan;
+    return
+end
+
 n = size(dn,1);
 
 % Compute the max depth

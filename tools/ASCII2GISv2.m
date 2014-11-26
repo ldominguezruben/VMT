@@ -21,18 +21,19 @@ function [VelOut,goodrows] = ASCII2GISv2(drange,ref,tav)
 %Added *.anv file export PRJ 5-11-11
 %Added averaging capability PRJ 3-20-12
 %Added ability to plot profiles along path (v2) 9-10-14
+%Made conversion to work with VMT package [FLE 11-26-2014]
 
 % P.R. Jackson 6-25-10
 
 
 %% USer inputs
 append_data = 1;
-comp_us = 1; %Compute shear velocity
+comp_us = 1;        % Compute shear velocity
 plot_profiles = 0;  %Plots median profiles for each averaging timestep
 plot_projected = 0; % Turn on projected velocity for plotting profiles
-proj_dir = 144.4;  %projection direction for velocity projection (profiles)
+proj_dir = 144.4;   % projection direction for velocity projection (profiles)
 plot_english = 0;
-nma = 1; %half window size for moving average of vertical profiles
+nma = 1;            % half window size for moving average of vertical profiles
 
 if isempty(tav)
     avg_data = 0;
@@ -430,7 +431,7 @@ for zi=1:z
             Nh = 1;
         end
         h3 = figure(3); clf
-        %maximize(h3)
+        maximize(h3)
         ha = tight_subplot(Nh, Nw, [0.05 0.02], [.05 .05],[.05 .05]);
         for i = 1:nprofs
             if plot_english
