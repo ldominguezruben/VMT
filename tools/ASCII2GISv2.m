@@ -336,15 +336,16 @@ for zi=1:z
         disp(['No spatial averaging requested. Processing all data.'])
            
         %Preallocate
-        dnm = nan(size(A.Wat.binDepth,1),1);
+        dnm = nan(size(A.Wat.binDepth,2),1);
         vpm = nan*ones(size(dnm));
-        dUdz = nan*ones(size(A.Wat.binDepth,1)-1,1);
+        dUdz = nan*ones(size(A.Wat.binDepth,2)-1,1);
         dUdz_z = nan*ones(size(dUdz));
         velprof = nan*ones(size(dnm));
         
         for i = 1:length(dnm)
            
             if comp_us  %Compute the shear velocity
+                dbstop if error
                 %Compute the mean, normalized profile (bed origin)
                 %[znm,vm] = VMT_ComputeNormProf(z_norm(:,av_indx),A.Wat.vMag(:,av_indx),30);
                 [binDepth,znm,Vme,Vmn,Vmv,vm,obsav,maxdepth(i)] = ComputeNormalizedProfile(nanmean(A.Nav.depth(i,:),2)',A.Wat.binDepth(:,i),A.Wat.vEast(:,i),A.Wat.vNorth(:,i),A.Wat.vVert(:,i));
@@ -624,6 +625,9 @@ fclose(ofid);
 % else
     % save('LastDir.mat','ascii2gispath')
 % end
+else % User cancelled uigetfile dialog, return 
+    VelOut = [];
+    goodrows = [];
 end
 
     

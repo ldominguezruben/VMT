@@ -328,8 +328,13 @@ function PlotDAVButton_Callback(hObject, eventdata, handles)
 
 %Plot the DAV data
 msgbox('Plotting Vectors...Please be patient','VMT Status','help','replace');
-VMT_PlotDAVvectors(handles.VelOut(handles.goodrows,1),handles.VelOut(handles.goodrows,2),handles.VelOut(handles.goodrows,4),handles.VelOut(handles.goodrows,5),handles.Ascale,handles.Vspace,handles.units)
-msgbox('Plotting Complete','VMT Status','help','replace');
+if isempty(handles.VelOut)
+    msgbox('There is no data to process. Press Run and load some data.','VMT Status','help','replace');
+    return
+else
+    VMT_PlotDAVvectors(handles.VelOut(handles.goodrows,1),handles.VelOut(handles.goodrows,2),handles.VelOut(handles.goodrows,4),handles.VelOut(handles.goodrows,5),handles.Ascale,handles.Vspace,handles.units)
+    msgbox('Plotting Complete','VMT Status','help','replace');
+end
 
 
 function edit5_Callback(hObject, eventdata, handles)
