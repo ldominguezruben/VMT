@@ -152,8 +152,10 @@ end % switch Probe type
                 if isstruct(A(1).wse) % Tide file loaded
                     % Interpolate the WSE values to the mcsTime
                     wse          = interp1(A(1).wse.obstime,A(1).wse.elev,V.mcsTime(1,:));
+                    log_text = ['      WSE in meters [tide file loaded, avg]) = ' num2str(mean(wse))];
                 else % Single value loaded into struct
                     wse = wsedata.elev; 
+                    log_text = ['      WSE in meters [tide file loaded, scalar]) = ' num2str(mean(wse))];
                 end
                 V.mcsBedElev = wse - V.mcsBed;
                 % Method 3: Interpolate new depths, assuming that the bed
